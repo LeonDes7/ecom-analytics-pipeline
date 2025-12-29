@@ -24,7 +24,7 @@ daily_revenue.to_sql("daily_revenue", conn, if_exists="replace", index=False)
 top_products.to_sql("top_products", conn, if_exists="replace", index=False)
 country_revenue.to_sql("country_revenue", conn, if_exists="replace", index=False)
 
-# Create a couple useful indexes (speeds up queries)
+# Create a couple useful indexes 
 cur = conn.cursor()
 cur.execute("CREATE INDEX IF NOT EXISTS idx_transactions_invoice ON transactions(InvoiceNo);")
 cur.execute("CREATE INDEX IF NOT EXISTS idx_transactions_customer ON transactions(CustomerID);")

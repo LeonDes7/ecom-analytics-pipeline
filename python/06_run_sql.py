@@ -6,7 +6,6 @@ DB_PATH = BASE_DIR / "data" / "warehouse.db"
 SQL_PATH = BASE_DIR / "sql" / "analytics_queries.sql"
 
 def split_sql_statements(sql_text: str):
-    # naive splitter (good enough for this project)
     statements = []
     buff = []
     for line in sql_text.splitlines():
@@ -34,7 +33,6 @@ def main():
         cur.execute(stmt)
         rows = cur.fetchall()
 
-        # print up to 20 rows
         for r in rows[:20]:
             print(r)
 

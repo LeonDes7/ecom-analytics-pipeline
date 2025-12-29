@@ -14,9 +14,7 @@ print("Loaded clean shape:", df.shape)
 # Add a Date column for grouping
 df["Date"] = df["InvoiceDate"].dt.date
 
-# -------------------------
 # 1) Daily revenue metrics
-# -------------------------
 daily = (
     df.groupby("Date")
       .agg(
@@ -33,9 +31,7 @@ daily_path = OUT_DIR / "daily_revenue.csv"
 daily.to_csv(daily_path, index=False)
 print("Saved:", daily_path)
 
-# -------------------------
 # 2) Top products
-# -------------------------
 top_products = (
     df.groupby(["StockCode", "Description"])
       .agg(
@@ -51,9 +47,7 @@ top_products_path = OUT_DIR / "top_products.csv"
 top_products.to_csv(top_products_path, index=False)
 print("Saved:", top_products_path)
 
-# -------------------------
 # 3) Country revenue
-# -------------------------
 country = (
     df.groupby("Country")
       .agg(
@@ -69,7 +63,6 @@ country_path = OUT_DIR / "country_revenue.csv"
 country.to_csv(country_path, index=False)
 print("Saved:", country_path)
 
-# Quick peek
 print("\nDaily (head):")
 print(daily.head(5))
 
