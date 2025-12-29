@@ -47,4 +47,4 @@ print("\nRow counts:")
 print(row_counts)
 
 conn.close()
-print("\n✅ Loaded SQLite warehouse successfully.")
+print("\n Loaded SQLite warehouse successfully.")
