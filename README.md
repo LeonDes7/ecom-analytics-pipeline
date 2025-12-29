@@ -28,7 +28,10 @@ This project is designed to showcase:
 - **Git & GitHub**
 
 ---
+## Tableau Dashboard
+[View the dashboard on Tableau Public] https://public.tableau.com/app/profile/xuan.zhang8153/viz/ecommerce_tableau_analysis/E-commerceRevenueDashboard
 
+---
 ##  Pipeline Workflow
 
 ### 1️ Data Ingestion
@@ -93,6 +96,7 @@ The final dashboard is published on **Tableau Public** and includes:
 ```bash
 git clone https://github.com/LeonDes7/ecom-analytics-pipeline.git
 cd ecom-analytics-pipeline
+
 
 
 
