@@ -83,7 +83,8 @@ The final dashboard is published on **Tableau Public** and includes:
 - Revenue by country (map view)
 
  **Tableau Public Link:**  
- *([add your link here](https://public.tableau.com/app/profile/xuan.zhang8153/viz/ecommerce_tableau_analysis/E-commerceRevenueDashboard))*
+ *([Tableau Dashboard](https://public.tableau.com/app/profile/xuan.zhang8153/viz/ecommerce_tableau_analysis/E-commerceRevenueDashboard))*
+
 
 
 
