@@ -1,0 +1,6 @@
+name: 'ecom_pipeline'
+version: '1.0.0'
+config-version: 2
+profile: 'ecom_duckdb'
+model-paths: ["models"]
+clean-targets: ["target", "dbt_packages"]

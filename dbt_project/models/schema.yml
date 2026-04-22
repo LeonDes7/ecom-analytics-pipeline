@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    columns:
+      - name: invoice_id  # Changed from InvoiceNo
+        tests:
+          - not_null
+      - name: customer_id # Changed from CustomerID
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null
+
+  - name: mart_top_products
+    columns:
+      - name: product_code
+        tests:
+          - not_null
+          # We might need to remove 'unique' here if one code has multiple descriptions!

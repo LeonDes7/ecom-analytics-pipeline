@@ -1,0 +1,6 @@
+sources:
+  - name: external_data
+    tables:
+      - name: transactions
+        config:
+          external_location: "read_parquet('../data/warehouse/transactions_spark.parquet/*.parquet')"

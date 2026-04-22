@@ -1,0 +1,21 @@
+services:
+  spark-master:
+    build: .
+    container_name: spark-master
+    # Start the Master process
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+    ports:
+      - "8080:8080" # Web UI
+      - "7077:7077" # Master Port
+    volumes:
+      - .:/opt/spark/project
+
+  spark-worker:
+    build: .
+    container_name: spark-worker
+    # Start the Worker and point it to the Master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    depends_on:
+      - spark-master
+    volumes:
+      - .:/opt/spark/project

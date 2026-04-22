@@ -1,0 +1,32 @@
+That's a good .gitignore but add these missing ones we talked about:
+gitignore# Local environments
+venv/
+.env
+
+# Data (We want the code, not the heavy files)
+data/raw/
+data/warehouse/
+*.csv
+*.parquet
+*.xlsx
+
+# Databases
+*.duckdb
+
+# Spark/Docker temp files
+.ipynb_checkpoints
+.DS_Store
+
+# Logs
+logs/
+*.log
+boot_logs.txt
+
+# Python cache
+__pycache__/
+*.pyc
+
+# dbt
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/

@@ -1,0 +1,6 @@
+ecom_duckdb:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: 'ecom_warehouse.duckdb'
