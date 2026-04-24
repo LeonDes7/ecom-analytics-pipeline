@@ -1,93 +1,36 @@
 # E-commerce Analytics Pipeline
 
-An end-to-end e-commerce analytics pipeline built using **Python, SQL, SQLite/PostgreSQL, and Tableau**.  
-This project demonstrates a realistic data engineering workflow: ingesting raw data, cleaning and validating it, creating analytical features, loading it into a database, and running analytical SQL queries for visualization.
+An end-to-end batch ETL pipeline processing 541,909 transactional records from the 
+UCI Online Retail Dataset using PySpark, DuckDB, dbt, and Docker.
 
----
+## Architecture
+Raw CSV → PySpark Cleaning → Parquet → DuckDB Warehouse → dbt Models → SQL Analytics → Tableau
 
-##  Project Overview
+## Tech Stack
+- **Processing:** PySpark
+- **Warehouse:** DuckDB
+- **Transformation:** dbt (7 data quality tests)
+- **Containerization:** Docker
+- **Visualization:** Tableau Public
+- **Orchestration:** Apache Airflow
 
-The goal of this project is to simulate a real-world analytics pipeline for an e-commerce business.  
-Raw transaction data is processed through a structured ETL pipeline and transformed into analytics-ready tables, which are then queried using SQL and visualized in Tableau.
+## Pipeline Steps
+1. **Ingest** — Download UCI Online Retail Dataset
+2. **Clean** — PySpark silver-level cleaning (null filtering, invalid record removal, revenue computation)
+3. **Export** — Output partitioned Parquet files
+4. **Load** — Write to DuckDB analytics warehouse
+5. **Transform** — dbt staging and mart models (daily revenue, top products, country revenue)
+6. **Analyze** — SQL queries surfacing key business metrics
+7. **Visualize** — Tableau dashboard
 
-This project is designed to showcase:
-- Practical **ETL pipeline design**
-- **Python-based data cleaning & transformation**
-- **SQL analytics queries**
-- **Database loading**
-- **BI integration (Tableau)**
+## Data Quality
+7 automated dbt tests enforcing null and uniqueness constraints across all tables
 
----
+## Dashboard
+[View Tableau Dashboard](https://public.tableau.com/app/profile/xuan.zhang8153/viz/ecommerce_tableau_analysis/E-commerceRevenueDashboard)
 
-##  Tech Stack
-
-- **Python** (pandas, sqlalchemy)
-- **SQL** (analytical queries)
-- **SQLite / PostgreSQL**
-- **Tableau Public**
-- **Git & GitHub**
-
----
-
-##  Pipeline Workflow
-
-### 1️ Data Ingestion
-- Downloads raw e-commerce transaction data.
-- Stores data locally for processing.
-
-### 2️ Data Inspection
-- Checks schema, row counts, missing values, and data types.
-- Identifies potential quality issues early.
-
-### 3️ Data Cleaning & Validation
-- Removes invalid rows (null IDs, negative quantities, etc.)
-- Standardizes fields (country names, dates)
-- Deduplicates records
-
-### 4️ Analytics Feature Engineering
-- Computes revenue (`quantity × unit_price`)
-- Creates daily revenue aggregates
-- Prepares analytics-friendly tables
-
-### 5️ Database Load
-- Loads cleaned and transformed data into SQLite (or PostgreSQL).
-- Tables are structured for analytical querying.
-
-### 6️ SQL Analytics
-- Runs analytical SQL queries to answer business questions:
-  - Daily revenue trends
-  - Top-selling products
-  - Revenue by country
-- Outputs are used directly in Tableau.
-
-### 7️ Visualization
-- Connects Tableau to the database.
-- Builds an interactive dashboard for stakeholders.
-
----
-
-##  Example Analytics Questions
-
-- What is the total revenue per day?
-- Which products generate the most revenue?
-- Which countries contribute the most sales?
-- How does revenue trend over time?
-
----
-
-##  Tableau Dashboard
-
-The final dashboard is published on **Tableau Public** and includes:
-- Revenue over time
-- Top products by revenue
-- Revenue by country (map view)
-
- **Tableau Public Link:**  
- *([Tableau Dashboard](https://public.tableau.com/app/profile/xuan.zhang8153/viz/ecommerce_tableau_analysis/E-commerceRevenueDashboard))*
-
-
-
-
-
-
-
+## How to Run
+1. Clone the repo
+2. Build Docker container: `docker-compose up`
+3. Run pipeline: `python run_pipeline.py`
+4. Run dbt: `cd dbt_project && dbt run`
