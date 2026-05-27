@@ -29,8 +29,15 @@ Raw CSV → PySpark Cleaning → Parquet → DuckDB Warehouse → dbt Models →
 ## Dashboard
 [View Tableau Dashboard](https://public.tableau.com/app/profile/xuan.zhang8153/viz/ecommerce_tableau_analysis/E-commerceRevenueDashboard)
 
-## How to Run
-1. Clone the repo
-2. Build Docker container: `docker-compose up`
-3. Run pipeline: `python run_pipeline.py`
-4. Run dbt: `cd dbt_project && dbt run`
+## Deployment & Execution Guide
+
+### Prerequisites
+* Docker and Docker Compose installed locally
+* Python 3.10+ installed
+
+### 1. Environment Setup
+Clone the repository and spin up the containerized infrastructure (Python environment, DuckDB storage volume, and dbt core).
+```bash
+git clone [https://github.com/LeonDes7/ecom-analytics-pipeline.git](https://github.com/LeonDes7/ecom-analytics-pipeline.git)
+cd ecom-analytics-pipeline
+docker-compose up -d
