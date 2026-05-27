@@ -30,7 +30,7 @@ if __name__ == "__main__":
     )
 
     # Step 3: Run dbt Transformations
-    # We tell Python to run dbt inside the dbt_project folder
+    # Tell Python to run dbt inside the dbt_project folder
     dbt_path = os.path.join(base_path, "dbt_project")
     run_command(
         "dbt Analytics Transformations", 
