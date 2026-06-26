@@ -8,8 +8,7 @@ renamed AS (
         CAST("StockCode" AS VARCHAR) AS product_code,
         "Description" AS product_description,
         CAST("Quantity" AS INT) AS quantity,
-        -- Use strptime to handle the "12/1/2010" format
-        strptime("InvoiceDate", '%m/%d/%Y %H:%M') AS invoice_date,
+        CAST("InvoiceDate" AS TIMESTAMP) AS invoice_date,
         CAST("UnitPrice" AS NUMERIC) AS unit_price,
         CAST("CustomerID" AS INT) AS customer_id,
         "Country" AS country,

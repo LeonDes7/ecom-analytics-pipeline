@@ -1,33 +1,41 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
+from pathlib import Path
 import os
 
-# Initialize SparkSession to enable distributed processing via the Catalyst Optimizer and Tungsten engine
-spark = SparkSession.builder.appName("EcomAnalytics").getOrCreate()
+# Detect whether running inside Docker or locally
+# Docker sets the project at /opt/spark/project; locally we resolve from this file
+IN_DOCKER = os.path.exists("/opt/spark/project")
 
-source_path = "/opt/spark/project/data/raw/online_retail.csv"
-output_path = "/opt/spark/project/data/warehouse/transactions_spark.parquet"
+if IN_DOCKER:
+    BASE_DIR = Path("/opt/spark/project")
+else:
+    BASE_DIR = Path(__file__).resolve().parents[1]
+
+SOURCE_PATH = str(BASE_DIR / "data" / "raw" / "online_retail.csv")
+OUTPUT_PATH = str(BASE_DIR / "data" / "warehouse" / "transactions_spark.parquet")
+
+# Initialize SparkSession — uses local mode when running outside Docker
+spark = SparkSession.builder \
+    .appName("EcomAnalytics") \
+    .master("local[*]") \
+    .getOrCreate()
+
+spark.sparkContext.setLogLevel("WARN")
 
 print("STEP 1: LOADING DATA...")
-# Read raw CSV data, automatically parse header names, and infer schema types in a distributed pass
-df = spark.read.csv(source_path, header=True, inferSchema=True)
+df = spark.read.csv(SOURCE_PATH, header=True, inferSchema=True)
 print(f"ROWS FOUND: {df.count()}")
 
 print("STEP 2: TRANSFORMING DATA...")
-# Execute distributed row-level filtering to exclude invalid operational states (null IDs and negative/zero items)
 cleaned_df = df.filter(col("CustomerID").isNotNull()) \
-               .filter(col("Quantity") > 0)
+               .filter(col("Quantity") > 0) \
+               .filter(col("UnitPrice") > 0)
 
-print("STEP 3: ATTEMPTING WRITE TO WAREHOUSE...")
-# Save data utilizing overwrite mode to ensure idempotency (rerunning the pipeline safely replaces old files)
-# Persist using Parquet format for highly efficient, compressed columnar storage
-cleaned_df.write.mode("overwrite").parquet(output_path)
+print("STEP 3: WRITING TO WAREHOUSE...")
+# Write as partitioned Parquet — columnar, compressed, dbt-ready
+cleaned_df.write.mode("overwrite").parquet(OUTPUT_PATH)
+print(f"Data written to {OUTPUT_PATH}")
+print(f"FINAL RECORD COUNT: {cleaned_df.count()}")
 
-if os.path.exists(output_path):
-    print(f"STEP 4: SUCCESS! Data written to {output_path}")
-    print(f"FINAL RECORD COUNT: {cleaned_df.count()}")
-else:
-    print("STEP 4: WRITE FAILED. Folder not found.")
-
-# Gracefully shut down the Spark context and release distributed executor resources
 spark.stop()

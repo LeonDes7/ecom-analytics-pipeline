@@ -3,13 +3,19 @@ version: 2
 models:
   - name: stg_transactions
     columns:
-      - name: invoice_id  # Changed from InvoiceNo
+      - name: invoice_id
         tests:
           - not_null
-      - name: customer_id # Changed from CustomerID
+      - name: customer_id
         tests:
           - not_null
       - name: quantity
+        tests:
+          - not_null
+      - name: unit_price
+        tests:
+          - not_null
+      - name: revenue
         tests:
           - not_null
 
@@ -18,4 +24,18 @@ models:
       - name: product_code
         tests:
           - not_null
-          # We might need to remove 'unique' here if one code has multiple descriptions!
+      - name: total_revenue
+        tests:
+          - not_null
+
+  - name: mart_daily_revenue
+    columns:
+      - name: total_revenue
+        tests:
+          - not_null
+
+  - name: mart_country_revenue
+    columns:
+      - name: total_revenue
+        tests:
+          - not_null

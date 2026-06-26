@@ -2,6 +2,7 @@ import pandas as pd
 
 RAW_PATH = "data/raw/online_retail.xlsx"
 CLEAN_PATH = "data/clean/online_retail_clean.csv"
+RAW_CSV_PATH = "data/raw/online_retail.csv"
 
 # Load raw source data
 df = pd.read_excel(RAW_PATH)
@@ -31,6 +32,10 @@ df["TotalPrice"] = df["Quantity"] * df["UnitPrice"]
 print("Clean shape:", df.shape)
 print(df.isnull().sum())
 
-# Persistence: Write the sanitized Silver-level dataset to a CSV file (without arbitrary pandas index columns)
+# Persistence: Write the sanitized Silver-level dataset to CSV (without arbitrary pandas index columns)
 df.to_csv(CLEAN_PATH, index=False)
 print("Clean data saved to:", CLEAN_PATH)
+
+# Export raw CSV for PySpark ingestion (Spark reads CSV natively, not Excel)
+df.to_csv(RAW_CSV_PATH, index=False)
+print("Raw CSV exported for Spark ingestion:", RAW_CSV_PATH)
