@@ -85,7 +85,7 @@ This single command runs all 10 pipeline steps automatically — from raw data e
 A successful run ends with:
 
 ```
- FULL PIPELINE EXECUTED SUCCESSFULLY!
+FULL PIPELINE EXECUTED SUCCESSFULLY!
 ```
 
 dbt test output:
